@@ -41,4 +41,4 @@ jobs:
         aws-region: us-east-1
     
     - name: Upload Zip
-      run: aws lambda update-function-code --function-name gohtmx --zip-file fileb://main.zip
+      run: aws lambda update-function-code --function-name gohtmx --zip-file fileb://bin/main.zip
