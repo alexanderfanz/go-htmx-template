@@ -43,11 +43,13 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	MainStack(app, "GoHtmxStack", &MainStackProps{
+	mainStack := MainStack(app, "GoHtmxStack", &MainStackProps{
 		awscdk.StackProps{
 			Env: env(),
 		},
 	})
+
+	awscdk.Tags_Of(mainStack).Add(jsii.String("Project"), jsii.String("GoHtmx"), &awscdk.TagProps{Priority: jsii.Number(90)})
 
 	app.Synth(nil)
 }
