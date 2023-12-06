@@ -34,7 +34,7 @@ build:
 	cd src && GOOS=linux GOARCH=$(ARCH) go build -tags lambda.norpc -o ../bin/bootstrap main.go
 
 zip:
-	cd bin && zip -j main.zip main
+	cd bin && zip -j bootstrap.zip bootstrap
 
 
 run:
