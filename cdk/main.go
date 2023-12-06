@@ -2,6 +2,9 @@ package main
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
+	"github.com/aws/aws-cdk-go/awscdklambdagoalpha/v2"
+
 	// "github.com/aws/aws-cdk-go/awscdk/v2/awssqs"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -18,12 +21,19 @@ func MainStack(scope constructs.Construct, id string, props *MainStackProps) aws
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	// The code that defines your stack goes here
+	awscdklambdagoalpha.NewGoFunction(stack, jsii.String("GetHandler"), &awscdklambdagoalpha.GoFunctionProps{
+		Runtime:      awslambda.Runtime_PROVIDED_AL2(),
+		Architecture: awslambda.Architecture_ARM_64(),
+		Entry:        jsii.String("../src"),
+		Bundling: &awscdklambdagoalpha.BundlingOptions{
+			GoBuildFlags: jsii.Strings(`-ldflags "-s -w" -tags lambda.norpc`),
+			// Environment: map[string]*string{
+			// 	"HELLO": jsii.String("WORLD"),
+			// },
+		},
+	})
 
-	// example resource
-	// queue := awssqs.NewQueue(stack, jsii.String("CdkQueue"), &awssqs.QueueProps{
-	// 	VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
-	// })
+	// mainApi := awsapigateway.NewRestApi(stack, jsii.String("MainApi"), &awsapigateway.RestApiProps{})
 
 	return stack
 }
@@ -33,7 +43,7 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	MainStack(app, "MainStack", &MainStackProps{
+	MainStack(app, "GoHtmxStack", &MainStackProps{
 		awscdk.StackProps{
 			Env: env(),
 		},
