@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awsapigateway"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awslogs"
 	"github.com/aws/aws-cdk-go/awscdklambdagoalpha/v2"
 
 	// "github.com/aws/aws-cdk-go/awscdk/v2/awssqs"
@@ -32,15 +33,16 @@ func MainStack(scope constructs.Construct, id string, props *MainStackProps) aws
 			// 	"HELLO": jsii.String("WORLD"),
 			// },
 		},
+		LogRetention: awslogs.RetentionDays_THREE_MONTHS,
 	})
 
 	mainApi := awsapigateway.NewRestApi(stack, jsii.String("GoHtmxApi"), &awsapigateway.RestApiProps{
 		RestApiName: jsii.String("GoHtmxApi"),
 	})
 
-	mainApi.Root().AddResource(jsii.String("hello"), &awsapigateway.ResourceOptions{}).
+	mainApi.Root().
 		AddMethod(
-			jsii.String("GET"),
+			jsii.String("ANY"),
 			awsapigateway.NewLambdaIntegration(lambdaHandler, &awsapigateway.LambdaIntegrationOptions{}),
 			&awsapigateway.MethodOptions{},
 		)
