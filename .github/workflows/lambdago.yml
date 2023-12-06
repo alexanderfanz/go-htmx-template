@@ -6,6 +6,10 @@ name: LambdaGo
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - src/**
+      - .github/workflows/lambdago.yml
+      
   pull_request:
     branches: [ "main" ]
 
