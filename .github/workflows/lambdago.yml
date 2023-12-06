@@ -43,4 +43,4 @@ jobs:
         aws-region: us-east-1
     
     - name: Upload Zip
-      run: cd bin && aws lambda update-function-code --function-name gohtmx --zip-file fileb://bootstrap.zip
+      run: cd bin && aws lambda update-function-code --function-name GoHtmxStack-GetHandlerEF5E42BB-F7y5e4bDx6wz --zip-file fileb://bootstrap.zip

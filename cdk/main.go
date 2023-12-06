@@ -36,17 +36,15 @@ func MainStack(scope constructs.Construct, id string, props *MainStackProps) aws
 		LogRetention: awslogs.RetentionDays_THREE_MONTHS,
 	})
 
-	mainApi := awsapigateway.NewRestApi(stack, jsii.String("GoHtmxApi"), &awsapigateway.RestApiProps{
-		RestApiName: jsii.String("GoHtmxApi"),
+	mainApi := awsapigateway.NewLambdaRestApi(stack, jsii.String("GoHtmxApi"), &awsapigateway.LambdaRestApiProps{
+		Handler: lambdaHandler,
+		IntegrationOptions: &awsapigateway.LambdaIntegrationOptions{
+			Timeout: awscdk.Duration_Seconds(jsii.Number(1)),
+		},
 	})
 
-	mainApi.Root().
-		AddMethod(
-			jsii.String("ANY"),
-			awsapigateway.NewLambdaIntegration(lambdaHandler, &awsapigateway.LambdaIntegrationOptions{}),
-			&awsapigateway.MethodOptions{},
-		)
-
+	mainApi.Root().AddMethod(jsii.String("GET"), nil, nil)
+	
 	return stack
 }
 

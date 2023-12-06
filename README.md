@@ -1,0 +1,1 @@
+[![LambdaGo](https://github.com/alexanderfanz/go-htmx-template/actions/workflows/lambdago.yml/badge.svg)](https://github.com/alexanderfanz/go-htmx-template/actions/workflows/lambdago.yml)  [![CDK Deploy](https://github.com/alexanderfanz/go-htmx-template/actions/workflows/cdk.yml/badge.svg)](https://github.com/alexanderfanz/go-htmx-template/actions/workflows/cdk.yml)
