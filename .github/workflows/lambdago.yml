@@ -23,7 +23,7 @@ jobs:
         go-version: '1.21'
 
     - name: Build
-      run: make build
+      run: ARCH=arm64 make build
       # run: go build -v ./...
 
     - name: Test
