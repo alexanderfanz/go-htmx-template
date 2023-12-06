@@ -31,7 +31,7 @@ endif
 
 build:
 	@echo "Building Go application..."
-	cd src && GOOS=linux GOARCH=$(ARCH) go build -o ../bin/main main.go
+	cd src && GOOS=linux GOARCH=$(ARCH) go build -tags lambda.norpc -o ../bin/bootstrap main.go
 
 zip:
 	cd bin && zip -j main.zip main
