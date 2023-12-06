@@ -3,22 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type MyEvent struct {
-	Name string `json:"name"`
-}
+func lambdaHandler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	fmt.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
+	fmt.Printf("Body size = %d.\n", len(request.Body))
 
-func lambdaHandler(ctx context.Context, event *MyEvent) (*string, error) {
-	log.Printf("Received event: %v", event)
-	if event == nil {
-		return nil, fmt.Errorf("received nil event")
+	fmt.Println("Headers:")
+	for key, value := range request.Headers {
+		fmt.Printf("    %s: %s\n", key, value)
 	}
-	message := fmt.Sprintf("Hello %s!", event.Name)
-	return &message, nil
+
+	return events.APIGatewayProxyResponse{Body: request.Body, StatusCode: 200}, nil
 }
 
 func main() {
