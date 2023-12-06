@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awsapigateway"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	"github.com/aws/aws-cdk-go/awscdklambdagoalpha/v2"
 
@@ -21,7 +22,7 @@ func MainStack(scope constructs.Construct, id string, props *MainStackProps) aws
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	awscdklambdagoalpha.NewGoFunction(stack, jsii.String("GetHandler"), &awscdklambdagoalpha.GoFunctionProps{
+	lambdaHandler := awscdklambdagoalpha.NewGoFunction(stack, jsii.String("GetHandler"), &awscdklambdagoalpha.GoFunctionProps{
 		Runtime:      awslambda.Runtime_PROVIDED_AL2(),
 		Architecture: awslambda.Architecture_ARM_64(),
 		Entry:        jsii.String("../src"),
@@ -33,7 +34,16 @@ func MainStack(scope constructs.Construct, id string, props *MainStackProps) aws
 		},
 	})
 
-	// mainApi := awsapigateway.NewRestApi(stack, jsii.String("MainApi"), &awsapigateway.RestApiProps{})
+	mainApi := awsapigateway.NewRestApi(stack, jsii.String("GoHtmxApi"), &awsapigateway.RestApiProps{
+		RestApiName: jsii.String("GoHtmxApi"),
+	})
+
+	mainApi.Root().AddResource(jsii.String("hello"), &awsapigateway.ResourceOptions{}).
+		AddMethod(
+			jsii.String("GET"),
+			awsapigateway.NewLambdaIntegration(lambdaHandler, &awsapigateway.LambdaIntegrationOptions{}),
+			&awsapigateway.MethodOptions{},
+		)
 
 	return stack
 }
