@@ -28,13 +28,14 @@ ifeq ($(ARCH),x86_64)
         override ARCH=amd64
 endif
 
+EXECUTABLE=bootstrap
 
 build:
 	@echo "Building Go application..."
-	cd src && GOOS=linux GOARCH=$(ARCH) go build -tags lambda.norpc -o ../bin/bootstrap main.go
+	cd src && GOOS=linux GOARCH=$(ARCH) go build -tags lambda.norpc -o ../bin/${EXECUTABLE} main.go
 
 zip:
-	cd bin && zip -j bootstrap.zip bootstrap
+	cd bin && zip -j ${EXECUTABLE}.zip ${EXECUTABLE}
 
 
 run:
